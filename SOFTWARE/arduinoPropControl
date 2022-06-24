@@ -1,0 +1,129 @@
+#include <Servo.h>
+Servo servoOne;
+Servo servoTwo;
+Servo servoThree;
+Servo servoFour;
+int pos = 0;
+
+int echoPinOne = 13;
+int trigPinOne = 12;
+int echoPinTwo = 11;
+int trigPinTwo = 10;
+int echoPinThree = 9;
+int trigPinThree = 8;
+int echoPinFour = 7;
+int trigPinFour = 6;
+int echoPinFive = 31;
+int trigPinFive = 29;
+int echoPinSix = 3;
+int trigPinSix = 2;
+
+int prevsqueeze = 0;
+int echoTimeOne;
+int echoTimeTwo;
+int echoTimeThree;
+int echoTimeFour;
+int echoTimeFive;
+int echoTimeSix;
+
+float distanceOne;
+float distanceTwo;
+float distanceThree;
+float distanceFour;
+float distanceFive;
+float distanceSix;
+//int i = 0;
+void setup() {
+  // put your setup code here, to run once:
+  servoOne.attach(A0);
+  servoTwo.attach(A1);
+  servoThree.attach(A2);
+  servoFour.attach(A3);
+  pinMode(trigPinOne, OUTPUT);
+  pinMode(echoPinOne, INPUT);
+  digitalWrite(trigPinOne, LOW);
+  pinMode(trigPinTwo, OUTPUT);
+  pinMode(echoPinTwo, INPUT);
+  digitalWrite(trigPinTwo, LOW);
+  pinMode(trigPinThree, OUTPUT);
+  pinMode(echoPinThree, INPUT);
+  digitalWrite(trigPinThree, LOW);
+  pinMode(trigPinFour, OUTPUT);
+  pinMode(echoPinFour, INPUT);
+  digitalWrite(trigPinFour, LOW);
+  pinMode(trigPinFive, OUTPUT);
+  pinMode(echoPinFive, INPUT);
+  digitalWrite(trigPinFive, LOW);
+  pinMode(trigPinSix, OUTPUT);
+  pinMode(echoPinSix, INPUT);
+  digitalWrite(trigPinSix, LOW);
+
+
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  //  i = i+1;
+  digitalWrite(trigPinOne, HIGH);
+  digitalWrite(trigPinTwo, HIGH);
+  digitalWrite(trigPinThree, HIGH);
+  digitalWrite(trigPinFour, HIGH);
+  digitalWrite(trigPinFive, HIGH);
+  digitalWrite(trigPinSix, HIGH);
+
+  delayMicroseconds(10);
+
+  digitalWrite(trigPinOne, LOW);
+  echoTimeOne = pulseIn(echoPinOne, HIGH);
+  digitalWrite(trigPinTwo, LOW);
+  echoTimeTwo = pulseIn(echoPinTwo, HIGH);
+  digitalWrite(trigPinThree, LOW);
+  echoTimeThree = pulseIn(echoPinThree, HIGH);
+  digitalWrite(trigPinFour, LOW);
+  echoTimeFour = pulseIn(echoPinFour, HIGH);
+  digitalWrite(trigPinFive, LOW);
+  echoTimeFive = pulseIn(echoPinFive, HIGH);
+  digitalWrite(trigPinSix, LOW);
+  echoTimeSix = pulseIn(echoPinSix, HIGH);
+
+  distanceOne = echoTimeOne;
+  distanceTwo = echoTimeTwo;
+  distanceThree = echoTimeThree;
+  distanceFour = echoTimeFour;
+  distanceFive = echoTimeFive;
+  distanceSix = echoTimeSix;
+  //  if (i == 1){
+  Serial.println(" ");
+  Serial.print(distanceOne);
+  Serial.print(",");
+  Serial.print(distanceSix);
+  Serial.print(",");
+  Serial.print(distanceThree);
+  Serial.print(",");
+  Serial.print(distanceFive);
+  Serial.print(",");
+  Serial.print(distanceTwo);
+  Serial.print(",");
+  Serial.print(distanceFour);
+  Serial.print(",");
+  //  }
+
+  if (distanceOne < 0.0) {
+    distanceOne = 0;
+  }
+
+
+  int  squeeze = (distanceOne / 20000) * 180;
+
+  servoOne.write(squeeze);
+  servoTwo.write(squeeze);
+  servoThree.write(squeeze);
+  servoFour.write(squeeze);
+
+  int prevprevsqueeze = prevsqueeze;
+  int prevsqueeze = squeeze;
+
+
+
+}
